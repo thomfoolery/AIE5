@@ -7,19 +7,20 @@
 
 ### [Quicklinks](https://github.com/AI-Maker-Space/AIE5/00_AIM_Quicklinks)
 
-| 🤓 Pre-work | 📰 Session Sheet | ⏺️ Recording     | 🖼️ Slides        | 👨‍💻 Repo         | 📝 Homework      | 📁 Feedback       |
-|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|
-| [Session 1: Pre-Work](https://www.notion.so/The-AI-Engineering-Bootcamp-Cohort-5-Home-Page-175cd547af3d80969151ebc75bb1d94a?pvs=4#175cd547af3d8159907cf0ac05eb9050)| [Session 1: Introduction and Vibe Check](https://www.notion.so/Session-1-Introduction-and-Vibe-Check-177cd547af3d804d9ec7c0266889f947) | [Recording](https://us02web.zoom.us/rec/share/pNtF3s7dsxOnsDxMALes9o1yPSc0PfHr8rS7aVZSsDKqA9RysEhfzEi57ahT0F_R.eOIPyhx8A9e58B57) (ub?4jfUD) | [Session 1: Cohort Kickoff](https://www.canva.com/design/DAGcIeKKtHE/t9TVvikxC3EUetoqY1YoKA/edit?utm_content=DAGcIeKKtHE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) | [Session 1: Introduction and Vibe Check](https://github.com/AI-Maker-Space/AIE5/tree/main/01_Prompt%20Engineering%20and%20Prototyping%20Best%20Practices)| [Session 1 Assignment: Vibe Check](https://forms.gle/4VVx9rGrK9gqcZ8S9)| [AIE5 Feedback 1/14](https://forms.gle/7nfaP5ngje3HDKjV9)
+| 🤓 Pre-work                                                                                                                                                         | 📰 Session Sheet                                                                                                                       | ⏺️ Recording                                                                                                                                | 🖼️ Slides                                                                                                                                                                                  | 👨‍💻 Repo                                                                                                                                                   | 📝 Homework                                                             | 📁 Feedback                                               |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------- | :-------------------------------------------------------- |
+| [Session 1: Pre-Work](https://www.notion.so/The-AI-Engineering-Bootcamp-Cohort-5-Home-Page-175cd547af3d80969151ebc75bb1d94a?pvs=4#175cd547af3d8159907cf0ac05eb9050) | [Session 1: Introduction and Vibe Check](https://www.notion.so/Session-1-Introduction-and-Vibe-Check-177cd547af3d804d9ec7c0266889f947) | [Recording](https://us02web.zoom.us/rec/share/pNtF3s7dsxOnsDxMALes9o1yPSc0PfHr8rS7aVZSsDKqA9RysEhfzEi57ahT0F_R.eOIPyhx8A9e58B57) (ub?4jfUD) | [Session 1: Cohort Kickoff](https://www.canva.com/design/DAGcIeKKtHE/t9TVvikxC3EUetoqY1YoKA/edit?utm_content=DAGcIeKKtHE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) | [Session 1: Introduction and Vibe Check](https://github.com/AI-Maker-Space/AIE5/tree/main/01_Prompt%20Engineering%20and%20Prototyping%20Best%20Practices) | [Session 1 Assignment: Vibe Check](https://forms.gle/4VVx9rGrK9gqcZ8S9) | [AIE5 Feedback 1/14](https://forms.gle/7nfaP5ngje3HDKjV9) |
 
 ### Assignment
 
-In the following assignment, you are required to take the app that you created for the AIE5 challenge (from [this repository](https://github.com/AI-Maker-Space/Beyond-ChatGPT)) and conduct what is known, colloquially, as a "vibe check" on the application. 
+In the following assignment, you are required to take the app that you created for the AIE5 challenge (from [this repository](https://github.com/AI-Maker-Space/Beyond-ChatGPT)) and conduct what is known, colloquially, as a "vibe check" on the application.
 
 You will be required to submit a link to your GitHub, as well as screenshots of the completed "vibe checks" through the provided Google Form!
 
 > NOTE: This will require you to make updates to your personal class repository, instructions on that process can be found [here](https://github.com/AI-Maker-Space/AIE5/00_Setting Up Git/README.md)!
 
 #### How AIM Does Assignments
+
 Throughout our time together - we'll be providing a number of assignments. Each assignment can be split into two broad categories:
 
 - Base Assignment - a more conceptual and theory based assignment focused on locking in specific key concepts and learnings.
@@ -35,16 +36,26 @@ Each assignment will have a few of the following categories of exercises:
 
 Please evaluate your system on the following questions:
 
-1. Explain the concept of object-oriented programming in simple terms to a complete beginner. 
-    - Aspect Tested:
+1. Explain the concept of object-oriented programming in simple terms to a complete beginner.
+   - Aspect Tested:
+     - General knowledge
 2. Read the following paragraph and provide a concise summary of the key points…
-    - Aspect Tested:
+   - Aspect Tested:
+     - Can it accurately summarize content
 3. Write a short, imaginative story (100–150 words) about a robot finding friendship in an unexpected place.
-    - Aspect Tested:
+   - Aspect Tested:
+     - Can it accurately follow word count instructions?
+     - Creative writing within supplied constraints.
 4. If a store sells apples in packs of 4 and oranges in packs of 3, how many packs of each do I need to buy to get exactly 12 apples and 9 oranges?
-    - Aspect Tested:
+   - Aspect Tested:
+     - Can it reason?
+     - Can it use logic?
+     - Reading comprehension
+     - Mathematical problem solving
 5. Rewrite the following paragraph in a professional, formal tone…
-    - Aspect Tested:
+   - Aspect Tested:
+     - Can it apply a certain style to generated content?
+     - Can it role play?
 
 This "vibe check" now serves as a baseline, of sorts, to help understand what holes your application has.
 
