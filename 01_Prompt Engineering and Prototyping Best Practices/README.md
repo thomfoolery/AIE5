@@ -74,3 +74,8 @@ In essence, it's a first look to ensure your system isn't experiencing catastrop
 ##### 🧑‍🤝‍🧑❓ Discussion Question #1:
 
 What are some limitations of vibe checking as an evaluation tool?
+
+- it doesn't scale
+- it's not rigorous
+- it's fairly subjective
+- it's a manual process (time consuming)
