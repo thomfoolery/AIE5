@@ -6,12 +6,14 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "ipykernel>=6.29.5",
+    "ipywidgets>=8.1.5",
     "jupyter>=1.1.1",
     "matplotlib>=3.10.0",
     "nump>=5.5.5.5",
     "openai>=1.59.7",
     "pandas>=2.2.3",
     "plotly>=5.24.1",
+    "pypdf2>=3.0.1",
     "python-dotenv>=1.0.1",
     "scikit-learn>=1.6.1",
     "scipy>=1.15.1",
