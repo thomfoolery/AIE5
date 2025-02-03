@@ -9,32 +9,30 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langgraph.graph import END, StateGraph
 
 from agents.utils import agent_node, create_agent, create_team_supervisor, print_mermaid_image
+from agents.rag_chain import create_rag_chain
 
-class DocWritingState(TypedDict):
+class FactCheckingState(TypedDict):
     messages: Annotated[List[BaseMessage], operator.add]
     team_members: str
     next: str
     current_files: str
 
-def enter_writing_graph(message: str, team_members: List[str]):
+def enter_fact_checking_graph(message: str, team_members: List[str]):
     results = {
         "messages": [HumanMessage(content=message)],
         "team_members": ", ".join(team_members),
     }
     return results
 
-def create_writing_team(llm: ChatOpenAI, working_directory) -> str:
+def create_fact_checking_team(llm: ChatOpenAI, working_directory) -> str:
+    rag_chain = create_rag_chain(llm)
 
     @tool
-    def create_outline(
-        points: Annotated[List[str], "List of main points or sections."],
-        file_name: Annotated[str, "File path to save the outline."],
-    ) -> Annotated[str, "Path of the saved outline file."]:
-        """Create and save an outline."""
-        with (working_directory / file_name).open("w") as file:
-            for i, point in enumerate(points):
-                file.write(f"{i + 1}. {point}\n")
-        return f"Outline saved to {file_name}"
+    def retrieve_information(
+        query: Annotated[str, "query to ask the retrieve information tool"]
+    ):
+        """Use Retrieval Augmented Generation to retrieve information about the 'Extending Llama-3’s Context Ten-Fold Overnight' paper."""
+        return rag_chain.invoke({"question" : query})
 
     @tool
     def read_document(
@@ -105,50 +103,28 @@ def create_writing_team(llm: ChatOpenAI, working_directory) -> str:
             + "\n".join([f" - {f}" for f in written_files]),
         }
 
-    doc_writer_agent = create_agent(
+    checker_agent = create_agent(
         llm,
-        [write_document, edit_document, read_document],
-        ("You are an expert writing technical LinkedIn posts.\n{current_files}"),
+        [read_document, retrieve_information],
+        ("You are an expert fact checking technical documents.\n{current_files}"),
     )
-    context_aware_doc_writer_agent = prelude | doc_writer_agent
-    doc_writing_node = functools.partial(
-        agent_node, agent=context_aware_doc_writer_agent, name="DocWriter"
+    context_aware_doc_writer_agent = prelude | checker_agent
+    fact_checking_node = functools.partial(
+        agent_node, agent=context_aware_doc_writer_agent, name="FactChecker"
     )
 
-    note_taking_agent = create_agent(
+    editor_agent = create_agent(
         llm,
-        [create_outline, read_document],
-        ("You are an expert senior researcher tasked with writing a LinkedIn post outline and"
-        " taking notes to craft a LinkedIn post.\n{current_files}"),
+        [read_document, edit_document],
+        ("You are an expert senior researcher tasked with fact_checking a LinkedIn post and"
+        " updating information we be accurate and truthful.\n{current_files}"),
     )
-    context_aware_note_taking_agent = prelude | note_taking_agent
-    note_taking_node = functools.partial(
-        agent_node, agent=context_aware_note_taking_agent, name="NoteTaker"
+    context_aware_note_taking_agent = prelude | editor_agent
+    editor_node = functools.partial(
+        agent_node, agent=context_aware_note_taking_agent, name="Editor"
     )
 
-    copy_editor_agent = create_agent(
-        llm,
-        [write_document, edit_document, read_document],
-        ("You are an expert copy editor who focuses on fixing grammar, spelling, and tone issues\n{current_files}"),
-    )
-    context_aware_copy_editor_agent = prelude | copy_editor_agent
-    copy_editing_node = functools.partial(
-        agent_node, agent=context_aware_copy_editor_agent, name="CopyEditor"
-    )
-
-    dopeness_editor_agent = create_agent(
-        llm,
-        [write_document, edit_document, read_document],
-        ("You are an expert in dopeness, litness, coolness, etc -"
-        " you edit the document to make sure it's dope."
-        " Make sure to use a number of emojis.\n{current_files}"),
-    )
-    context_aware_dopeness_editor_agent = prelude | dopeness_editor_agent
-    dopeness_node = functools.partial(
-        agent_node, agent=context_aware_dopeness_editor_agent, name="DopenessEditor"
-    )
-
-    doc_writing_supervisor = create_team_supervisor(
+    supervisor = create_team_supervisor(
         llm,
         ("You are a supervisor tasked with managing a conversation between the"
         " following workers: {team_members}. You should always verify the technical"
@@ -157,48 +133,42 @@ def create_writing_team(llm: ChatOpenAI, working_directory) -> str:
         " respond with the worker to act next. Each worker will perform a"
         " task and respond with their results and status. When each team is finished,"
         " you must respond with FINISH."),
-        ["DocWriter", "NoteTaker", "DopenessEditor", "CopyEditor"],
+        ["FactChecker", "Editor"],
     )
 
     #####
 
-    _writing_graph = StateGraph(DocWritingState)
-    _writing_graph.add_node("DocWriter", doc_writing_node)
-    _writing_graph.add_node("NoteTaker", note_taking_node)
-    _writing_graph.add_node("CopyEditor", copy_editing_node)
-    _writing_graph.add_node("DopenessEditor", dopeness_node)
-    _writing_graph.add_node("supervisor", doc_writing_supervisor)
+    _fact_checking_graph = StateGraph(FactCheckingState)
+    _fact_checking_graph.add_node("FactChecker", fact_checking_node)
+    _fact_checking_graph.add_node("Editor", editor_node)
+    _fact_checking_graph.add_node("supervisor", supervisor)
 
-    _writing_graph.add_edge("DocWriter", "supervisor")
-    _writing_graph.add_edge("NoteTaker", "supervisor")
-    _writing_graph.add_edge("CopyEditor", "supervisor")
-    _writing_graph.add_edge("DopenessEditor", "supervisor")
+    _fact_checking_graph.add_edge("FactChecker", "supervisor")
+    _fact_checking_graph.add_edge("Editor", "supervisor")
 
-    _writing_graph.add_conditional_edges(
+    _fact_checking_graph.add_conditional_edges(
         "supervisor",
         lambda x: x["next"],
         {
-            "DocWriter": "DocWriter",
-            "NoteTaker": "NoteTaker",
-            "CopyEditor" : "CopyEditor",
-            "DopenessEditor" : "DopenessEditor",
+            "FactChecker": "FactChecker",
+            "Editor": "Editor",
             "FINISH": END,
         },
     )
 
-    _writing_graph.set_entry_point("supervisor")
-    writing_graph = _writing_graph.compile()
+    _fact_checking_graph.set_entry_point("supervisor")
+    fact_checking_graph = _fact_checking_graph.compile()
 
     #####
-    # print_mermaid_image(_writing_graph, './images/writing_graph.png')
+    # print_mermaid_image(fact_checking_graph, './images/fact_checking_graph.png')
     #####
 
-    writing_graph_chain = (
-        functools.partial(enter_writing_graph, team_members=writing_graph.nodes)
-        | writing_graph
+    fact_checking_graph_chain = (
+        functools.partial(enter_fact_checking_graph, team_members=fact_checking_graph.nodes)
+        | fact_checking_graph
     )
 
-    return writing_graph_chain
+    return fact_checking_graph_chain
 
     #####
     # for s in writing_graph_chain.stream(
