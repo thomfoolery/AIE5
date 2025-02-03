@@ -8,7 +8,13 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langchain.agents import AgentExecutor, create_openai_functions_agent
 from langchain.output_parsers.openai_functions import JsonOutputFunctionsParser
 
-# utils
+AGENT_SYSTEM_PROMPT = ("\nWork autonomously according to your specialty, using the tools available to you."
+" Do not ask for clarification."
+" Your other team members (and other teams) will collaborate with you with their own specialties."
+" You are chosen for a reason!"
+# " You are one of the following team members: {team_members}."
+"")
+
 def agent_node(state, agent, name):
     result = agent.invoke(state)
     return {"messages": [HumanMessage(content=result["output"], name=name)]}
@@ -19,12 +25,7 @@ def create_agent(
     system_prompt: str,
 ) -> str:
     """Create a function-calling agent and add it to the graph."""
-    system_prompt += ("\nWork autonomously according to your specialty, using the tools available to you."
-    " Do not ask for clarification."
-    " Your other team members (and other teams) will collaborate with you with their own specialties."
-    " You are chosen for a reason! "
-    # "You are one of the following team members: {team_members}."
-    "")
+    system_prompt += AGENT_SYSTEM_PROMPT
     prompt = ChatPromptTemplate.from_messages(
         [
             (

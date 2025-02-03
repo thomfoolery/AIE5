@@ -12,6 +12,7 @@ from agents.utils import create_team_supervisor, create_working_directory, print
 from agents.rag_chain import create_rag_chain
 from agents.research_team import create_research_team
 from agents.writing_team import create_writing_team
+from agents.fact_checking_team import create_fact_checking_team
 
 gpt4oMini = ChatOpenAI(model="gpt-4o-mini")
 gpt4turbo = ChatOpenAI(model="gpt-4-turbo")
@@ -22,6 +23,7 @@ WORKING_DIRECTORY = Path(create_working_directory())
 rag_chain = create_rag_chain(gpt4oMini)
 research_team = create_research_team(gpt4turbo, rag_chain)
 writing_team = create_writing_team(gpt4turbo, WORKING_DIRECTORY)
+fact_checking_team = create_fact_checking_team(gpt4turbo, WORKING_DIRECTORY)
 
 supervisor_node = create_team_supervisor(
     gpt4turbo,
@@ -30,7 +32,7 @@ supervisor_node = create_team_supervisor(
     " respond with the worker to act next. Each worker will perform a"
     " task and respond with their results and status. When all workers are finished,"
     " you must respond with FINISH.",
-    ["Research team", "LinkedIn team"],
+    ["Research team", "Writing team", "Fact checking team"],
 )
 
 class State(TypedDict):
@@ -44,20 +46,28 @@ def join_graph(response: dict):
     return {"messages": [response["messages"][-1]]}
 
 supervisor_graph = StateGraph(State)
-supervisor_graph.add_node("Research team", get_last_message | research_team | join_graph)
 supervisor_graph.add_node(
-    "LinkedIn team", get_last_message | writing_team  | join_graph
+    "Research team", get_last_message | research_team | join_graph
+)
+supervisor_graph.add_node(
+    "Writing team", get_last_message | writing_team | join_graph
+)
+supervisor_graph.add_node(
+    "Fact checking team", get_last_message | fact_checking_team | join_graph
 )
 supervisor_graph.add_node("supervisor", supervisor_node)
 
 supervisor_graph.add_edge("Research team", "supervisor")
-supervisor_graph.add_edge("LinkedIn team", "supervisor")
+supervisor_graph.add_edge("Fact checking team", "supervisor")
+supervisor_graph.add_edge("Writing team", "supervisor")
+
 supervisor_graph.add_conditional_edges(
     "supervisor",
     lambda x: x["next"],
     {
-        "LinkedIn team": "LinkedIn team",
+        "Writing team": "Writing team",
         "Research team": "Research team",
+        "Fact checking team": "Fact checking team",
         "FINISH": END,
     },
 )
@@ -66,21 +76,21 @@ supervisor = supervisor_graph.compile()
 
 # print_mermaid_image(supervisor_graph, './images/supervisor_graph.png')
 
-#####
+input = {
+    "messages": [
+        HumanMessage(
+            content="Write a LinkedIn post on the paper 'Extending Llama-3’s Context Ten-Fold Overnight'. First consult the research team. Then make sure you consult the Writing team, and check for copy editing and dopeness, and write the file to disk."
+        )
+    ],
+}
+
 for s in supervisor.stream(
-    {
-        "messages": [
-            HumanMessage(
-                content="Write a LinkedIn post on the paper 'Extending Llama-3’s Context Ten-Fold Overnight'. First consult the research team. Then make sure you consult the LinkedIn team, and check for copy editing and dopeness, and write the file to disk."
-            )
-        ],
-    },
+    input,
     {"recursion_limit": 30},
 ):
     if "__end__" not in s:
         print(s)
         print("---")
-#####
 
 # 🏗️ Activity #1 (Bonus Marks)
 # 
@@ -98,6 +108,7 @@ for s in supervisor.stream(
 #
 # A: Reasoning, the Agent must be able to understand the order of operations that must be performed in order to complete the request.
 # 
+
 # 🏗️ Activity #2:
 # 
 # Using whatever drawing application you wish - please label the flow above on a diagram of your graph.
@@ -110,3 +121,13 @@ for s in supervisor.stream(
 # A: By creating a tool that is specifically designed to be used in conjunction with the Agent, you can ensure that the Agent uses the tool as intended. 
 # You can also set a flow through tools by creating a specific path for the Agent to follow that includes the use of the tool.
 # 
+
+# 🏗️ Activity #3:
+#
+# Describe, briefly, what each of these tools is doing in your own words.
+# 
+# - create_outline
+# - read_document
+# - write_document
+# - edit_document
+#
