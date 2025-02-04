@@ -9,7 +9,6 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langgraph.graph import END, StateGraph
 
 from agents.utils import agent_node, create_agent, create_team_supervisor, print_mermaid_image
-from agents.rag_chain import create_rag_chain
 
 class FactCheckingState(TypedDict):
     messages: Annotated[List[BaseMessage], operator.add]
@@ -24,9 +23,7 @@ def enter_fact_checking_graph(message: str, team_members: List[str]):
     }
     return results
 
-def create_fact_checking_team(llm: ChatOpenAI, working_directory) -> str:
-    rag_chain = create_rag_chain(llm)
-
+def create_fact_checking_team(llm: ChatOpenAI, rag_chain, working_directory) -> str:
     @tool
     def retrieve_information(
         query: Annotated[str, "query to ask the retrieve information tool"]
@@ -46,16 +43,6 @@ def create_fact_checking_team(llm: ChatOpenAI, working_directory) -> str:
         if start is not None:
             start = 0
         return "\n".join(lines[start:end])
-
-    @tool
-    def write_document(
-        content: Annotated[str, "Text content to be written into the document."],
-        file_name: Annotated[str, "File path to save the document."],
-    ) -> Annotated[str, "Path of the saved document file."]:
-        """Create and save a text document."""
-        with (working_directory / file_name).open("w") as file:
-            file.write(content)
-        return f"Document saved to {file_name}"
 
     @tool
     def edit_document(

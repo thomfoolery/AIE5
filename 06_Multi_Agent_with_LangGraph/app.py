@@ -23,7 +23,7 @@ WORKING_DIRECTORY = Path(create_working_directory())
 rag_chain = create_rag_chain(gpt4oMini)
 research_team = create_research_team(gpt4turbo, rag_chain)
 writing_team = create_writing_team(gpt4turbo, WORKING_DIRECTORY)
-fact_checking_team = create_fact_checking_team(gpt4turbo, WORKING_DIRECTORY)
+fact_checking_team = create_fact_checking_team(gpt4turbo, rag_chain, WORKING_DIRECTORY)
 
 supervisor_node = create_team_supervisor(
     gpt4turbo,
@@ -97,6 +97,8 @@ for s in supervisor.stream(
 # Allow the system to dynamically fetch Arxiv papers instead of hard coding them.
 # 
 # > HINT: Tuesday's assignment will be very useful here.
+#
+# A: See [./Multi_Agent_RAG_LangGraph.ipynb](./Multi_Agent_RAG_LangGraph.ipynb) for the solution to this activity.
 # 
 
 # ❓ Question #1:
@@ -113,13 +115,14 @@ for s in supervisor.stream(
 # 
 # Using whatever drawing application you wish - please label the flow above on a diagram of your graph.
 # 
+# A: See [./research_graph.png](./research_graph.png) for the solution to this activity.
+#
 
 # ❓ Question #2:
 # 
 # How could you make sure your Agent uses specific tools that you wish it to use? Are there any ways to concretely set a flow through tools?
 # 
-# A: By creating a tool that is specifically designed to be used in conjunction with the Agent, you can ensure that the Agent uses the tool as intended. 
-# You can also set a flow through tools by creating a specific path for the Agent to follow that includes the use of the tool.
+# A: By creating a node that has access to only a single tool, you use a conditional edge to route the flow through that node ensuring the agent can only use that tool. 
 # 
 
 # 🏗️ Activity #3:
@@ -127,7 +130,14 @@ for s in supervisor.stream(
 # Describe, briefly, what each of these tools is doing in your own words.
 # 
 # - create_outline
+#     This tool takes the provide array of strings(points) and writes them to a specific file(file_name)
+#
 # - read_document
+#     This tool reads the provided document(file_name) and returns the contents between the specified start(start, default 0) and end(end, default None) line indices
+#
 # - write_document
+#     This tool writes the provided content(content) to a specific file (file_name)
+#
 # - edit_document
+#     This tool edits the provided document and inserts text into the document(file_name) at the specified indices(inserts)
 #
