@@ -7,6 +7,8 @@ from langchain_community.vectorstores import Qdrant
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain.schema.output_parser import StrOutputParser
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.tools import ArxivQueryRun
+import arxiv
 
 RAG_PROMPT = """
 CONTEXT:
@@ -18,11 +20,26 @@ QUERY:
 You are a helpful assistant. Use the available context to answer the question. If you can't answer the question, say you don't know.
 """
 
-embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
+class GetArchivePaperUrl(ArxivQueryRun):
+    def _run(self, query: str) -> str:
+        """Return URL of Arxiv paper"""
+        client = arxiv.Client()
+        search = arxiv.Search(query=query, max_results=1)
+        for result in client.results(search):
+            return f"http://arxiv.org/pdf/{result.get_short_id()}.pdf"
+        return "No results found"
+    
+archive_tool = GetArchivePaperUrl()
+url_chain = (lambda x: archive_tool.run({"query": x["query"]}))
 
-def create_rag_chain(llm):
-    # docs = PyMuPDFLoader("./docs/DeepSeek_R1.pdf").load()
-    docs = PyMuPDFLoader("https://arxiv.org/pdf/2404.19553").load()
+def get_dynamic_rag_chain():
+    paper_url = url_chain({"query": "get the url of the paper about deepseek r1"})
+    
+    return paper_url
+
+def create_rag_chain(llm, paper_url = "https://arxiv.org/pdf/2404.19553"):
+    docs = PyMuPDFLoader(paper_url).load()
+    embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
 
     def tiktoken_len(text):
         tokens = tiktoken.encoding_for_model("gpt-4o-mini").encode(
