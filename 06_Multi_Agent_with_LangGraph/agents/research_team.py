@@ -5,6 +5,7 @@ import operator
 
 from langchain_core.tools import tool, BaseTool
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
+from langchain_community.tools.arxiv.tool import ArxivQueryRun
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langgraph.graph import END, StateGraph
 
@@ -19,10 +20,12 @@ SYSTEM_PROMPT = ("You are a supervisor tasked with managing a conversation betwe
 " When finished, respond with FINISH.")
 
 tavily_tool = TavilySearchResults(max_results=5)
+arxiv_query = ArxivQueryRun()
 
 class ResearchTeamState(TypedDict):
     messages: Annotated[List[BaseMessage], operator.add]
     team_members: List[str]
+    paper_url: str
     next: str
 
 def enter_research_graph(message: str):
