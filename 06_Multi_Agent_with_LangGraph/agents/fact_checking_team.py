@@ -28,7 +28,7 @@ def create_fact_checking_team(llm: ChatOpenAI, rag_chain, working_directory) -> 
     def retrieve_information(
         query: Annotated[str, "query to ask the retrieve information tool"]
     ):
-        """Use Retrieval Augmented Generation to retrieve information about the 'Extending Llama-3’s Context Ten-Fold Overnight' paper."""
+        """Use Retrieval Augmented Generation to retrieve information about the provided paper."""
         return rag_chain.invoke({"question" : query})
 
     @tool
@@ -49,8 +49,8 @@ def create_fact_checking_team(llm: ChatOpenAI, rag_chain, working_directory) -> 
         file_name: Annotated[str, "Path of the document to be edited."],
         inserts: Annotated[
             Dict[int, str],
-            "Dictionary where key is the line number (1-indexed) and value"
-            " is the text to be inserted at that line.",
+            ("Dictionary where key is the line number (1-indexed) and value"
+            " is the text to be inserted at that line."),
         ] = {},
     ) -> Annotated[str, "Path of the edited document file."]:
         """Edit a document by inserting text at specific line numbers."""
@@ -103,7 +103,7 @@ def create_fact_checking_team(llm: ChatOpenAI, rag_chain, working_directory) -> 
     editor_agent = create_agent(
         llm,
         [read_document, edit_document],
-        ("You are an expert senior researcher tasked with fact_checking a LinkedIn post and"
+        ("You are an expert senior researcher tasked with fact checking and"
         " updating information we be accurate and truthful.\n{current_files}"),
     )
     context_aware_note_taking_agent = prelude | editor_agent

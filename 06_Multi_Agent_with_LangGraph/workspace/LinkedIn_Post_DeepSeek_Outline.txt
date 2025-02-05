@@ -1,0 +1,5 @@
+1. Introduction to the DeepSeek-R1 research paper
+2. Features of DeepSeek-R1-Zero
+3. Features of DeepSeek-R1
+4. Introduction to the training innovations
+5. Emphasis on community engagement and open-source models
