@@ -64,8 +64,8 @@ def create_writing_team(llm: ChatOpenAI, working_directory) -> str:
         file_name: Annotated[str, "Path of the document to be edited."],
         inserts: Annotated[
             Dict[int, str],
-            "Dictionary where key is the line number (1-indexed) and value"
-            " is the text to be inserted at that line.",
+            ("Dictionary where key is the line number (1-indexed) and value"
+            " is the text to be inserted at that line."),
         ] = {},
     ) -> Annotated[str, "Path of the edited document file."]:
         """Edit a document by inserting text at specific line numbers."""

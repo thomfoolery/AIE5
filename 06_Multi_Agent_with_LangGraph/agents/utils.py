@@ -82,11 +82,22 @@ def create_working_directory(foldername: str = None) -> str:
     # subdirectory_path = os.path.join('./content/data', random_id)
     basePath = Path('./workspace')
     os.makedirs(basePath, exist_ok=True)
+
+    clear_working_directory(basePath)
     
     directory_path = os.path.join(basePath, foldername) if foldername else basePath
 
     os.makedirs(directory_path, exist_ok=True)
     return directory_path
+
+def clear_working_directory(directory_path: str) -> None:
+    for file in os.listdir(directory_path):
+        file_path = os.path.join(directory_path, file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(e)
 
 def print_mermaid_image(graph, path):
     try:

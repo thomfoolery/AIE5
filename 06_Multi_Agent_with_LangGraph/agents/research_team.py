@@ -34,12 +34,12 @@ def enter_research_graph(message: str):
     }
     return results
 
-def create_research_team(llm, rag_chain):
+def create_research_team(llm, rag_chain, paper_name):
     @tool
     def retrieve_information(
         query: Annotated[str, "query to ask the retrieve information tool"]
     ):
-        """Use Retrieval Augmented Generation to retrieve information about the 'Extending Llama-3’s Context Ten-Fold Overnight' paper."""
+        """Use Retrieval Augmented Generation to retrieve information about the research paper."""
         return rag_chain.invoke({"question" : query})
 
     # search_agent
@@ -54,7 +54,8 @@ def create_research_team(llm, rag_chain):
     rag_agent = create_agent(
         llm,
         [retrieve_information],
-        "You are a research assistant who can provide specific information on the provided paper: 'Extending Llama-3’s Context Ten-Fold Overnight'. You must only respond with information about the paper related to the request.",
+        (f"You are a research assistant who can provide specific information on the research paper '{paper_name}'."
+         " You must only respond with information about the paper related to the request."),
     )
     rag_node = functools.partial(agent_node, agent=rag_agent, name="PaperInformationRetriever")
 
