@@ -20,18 +20,21 @@ gpt4 = ChatOpenAI(model="gpt-4")
 
 WORKING_DIRECTORY = Path(create_working_directory())
 
-rag_chain = create_rag_chain(gpt4oMini)
-research_team = create_research_team(gpt4turbo, rag_chain)
-writing_team = create_writing_team(gpt4turbo, WORKING_DIRECTORY)
-fact_checking_team = create_fact_checking_team(gpt4turbo, rag_chain, WORKING_DIRECTORY)
+paper_name = "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
+paper_pdf_url = "https://arxiv.org/pdf/2501.12948.pdf"
+
+rag_chain = create_rag_chain(gpt4oMini, paper_pdf_url)
+research_team = create_research_team(gpt4turbo, rag_chain, paper_name)
+writing_team = create_writing_team(gpt4, WORKING_DIRECTORY)
+fact_checking_team = create_fact_checking_team(gpt4, rag_chain, WORKING_DIRECTORY)
 
 supervisor_node = create_team_supervisor(
     gpt4turbo,
-    "You are a supervisor tasked with managing a conversation between the"
+    ("You are a supervisor tasked with managing a conversation between the"
     " following teams: {team_members}. Given the following user request,"
     " respond with the worker to act next. Each worker will perform a"
     " task and respond with their results and status. When all workers are finished,"
-    " you must respond with FINISH.",
+    " you must respond with FINISH."),
     ["Research team", "Writing team", "Fact checking team"],
 )
 
@@ -79,14 +82,21 @@ supervisor = supervisor_graph.compile()
 input = {
     "messages": [
         HumanMessage(
-            content="Write a LinkedIn post on the paper 'Extending Llama-3’s Context Ten-Fold Overnight'. First consult the research team. Then make sure you consult the Writing team, and check for copy editing and dopeness, and write the file to disk."
+            content=(
+                f"Write a LinkedIn post on the paper {paper_name}."
+                " First consult the research team."
+                " Then provide the research to the Writing team"
+                " to write an outline, take notes, make copy edits and check for dopeness."
+                " Then provide the fact checking team with the post for verification."
+                " Finally write the file to disk."
+            )
         )
     ],
 }
 
 for s in supervisor.stream(
     input,
-    {"recursion_limit": 30},
+    {"recursion_limit": 20},
 ):
     if "__end__" not in s:
         print(s)
