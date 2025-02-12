@@ -1,6 +1,6 @@
 # Quicklinks - AI Engineering
 
-Quicklinks are to help you **easily navigate individual session information** for `AI Engineering`!  
+Quicklinks are to help you **easily navigate individual session information** for `AI Engineering`!
 
 - We'll follow the [course schedule](https://www.notion.so/The-AI-Engineering-Bootcamp-Cohort-5-Detailed-Schedule-Syllabus-158cd547af3d80039ed3c8f6dfe8be7c?pvs=4#158cd547af3d812a8555cdec981ca126) as outlined throughout the cohort!
 - You can also access all [course materials](https://www.notion.so/The-AI-Engineering-Bootcamp-Cohort-5-Home-Page-175cd547af3d80969151ebc75bb1d94a?pvs=4#175cd547af3d8121b8c3ca20c7ce85ca) via the [Notion Home Page](https://www.notion.so/The-AI-Engineering-Bootcamp-Cohort-5-Home-Page-175cd547af3d80969151ebc75bb1d94a)
