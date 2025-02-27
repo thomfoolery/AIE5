@@ -12,4 +12,9 @@ dependencies = [
     "langchain-openai>=0.3.7",
     "qdrant-client>=1.13.2",
     "rank-bm25>=0.2.2",
+    "ragas>=0.2.13",
+    "rapidfuzz>=3.12.1",
+    "pandas>=2.2.3",
+    "langsmith>=0.3.10",
+    "typing-extensions>=4.12.2",
 ]
