@@ -7,11 +7,9 @@
 
 ### [Quicklinks](https://github.com/AI-Maker-Space/AIE5/00_AIM_Quicklinks)
 
-| 🤓 Pre-work | 📰 Session Sheet | ⏺️ Recording     | 🖼️ Slides        | 👨‍💻 Repo         | 📝 Homework      | 📁 Feedback       |
-|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|
-| [Session 15: Pre-Work](https://www.notion.so/Session-15-Intro-to-Production-and-Open-Source-Endpoints-189cd547af3d80168768dc2a8e18cfed?pvs=4#189cd547af3d816b8edce736371f4e47)| [Session 15: Intro to Production and Open-Source Endpoints](https://www.notion.so/Session-15-Intro-to-Production-and-Open-Source-Endpoints-189cd547af3d80168768dc2a8e18cfed) | [Recording](https://us02web.zoom.us/rec/share/yyfRWpLirOF5dG7x7bPq-nDAMMl_7A9NrJezZ1lOYzV_pnXx2DqewqjjN6TO9g66.nzdC7HDNKuLkKBgz) (t.x40jww) | [Session 15: Deploying Production Endpoints](https://www.canva.com/design/DAGgzHilCCM/V1mncJGrJ_2LhpADDxKvRQ/edit?utm_content=DAGgzHilCCM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) |You Are Here!| [Session 15 Assignment: Intro to Production and Open-Source Endpoints](https://forms.gle/ii1LNb2oxuHhH1xd9) | [AIE5 Feedback 3/4](https://forms.gle/gMZfY2oHmeYMhWmn6) |
-
-
+| 🤓 Pre-work                                                                                                                                                                    | 📰 Session Sheet                                                                                                                                                             | ⏺️ Recording                                                                                                                                | 🖼️ Slides                                                                                                                                                                                                   | 👨‍💻 Repo       | 📝 Homework                                                                                                 | 📁 Feedback                                              |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------ | :---------------------------------------------------------------------------------------------------------- | :------------------------------------------------------- |
+| [Session 15: Pre-Work](https://www.notion.so/Session-15-Intro-to-Production-and-Open-Source-Endpoints-189cd547af3d80168768dc2a8e18cfed?pvs=4#189cd547af3d816b8edce736371f4e47) | [Session 15: Intro to Production and Open-Source Endpoints](https://www.notion.so/Session-15-Intro-to-Production-and-Open-Source-Endpoints-189cd547af3d80168768dc2a8e18cfed) | [Recording](https://us02web.zoom.us/rec/share/yyfRWpLirOF5dG7x7bPq-nDAMMl_7A9NrJezZ1lOYzV_pnXx2DqewqjjN6TO9g66.nzdC7HDNKuLkKBgz) (t.x40jww) | [Session 15: Deploying Production Endpoints](https://www.canva.com/design/DAGgzHilCCM/V1mncJGrJ_2LhpADDxKvRQ/edit?utm_content=DAGgzHilCCM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) | You Are Here! | [Session 15 Assignment: Intro to Production and Open-Source Endpoints](https://forms.gle/ii1LNb2oxuHhH1xd9) | [AIE5 Feedback 3/4](https://forms.gle/gMZfY2oHmeYMhWmn6) |
 
 In today's assignment, we'll be creating an Open Source LLM-powered LangChain RAG Application in Chainlit.
 
@@ -31,7 +29,7 @@ Create a "+ New Endpoint" from the Inference Endpoints dashboard.
 
 ![image](https://i.imgur.com/Gukctmv.png)
 
-Select the `NousResearch/Meta-Llama-3.1-8B-Instruct` model repository and name your endpoint. Select N. Virginia as your region (`us-east-1`). Give your endpoint an appropriate name. Make sure to select *at least* a L4 GPU. 
+Select the `NousResearch/Meta-Llama-3.1-8B-Instruct` model repository and name your endpoint. Select N. Virginia as your region (`us-east-1`). Give your endpoint an appropriate name. Make sure to select _at least_ a L4 GPU.
 
 ![image](https://i.imgur.com/ruF7ssQ.png)
 
@@ -48,6 +46,7 @@ If you were successful, you should see the following screen:
 ![image](https://i.imgur.com/sKowQt8.png)
 
 #### Embedding Model Endpoint
+
 We'll be using `Snowflake/snowflake-arctic-embed-m` for our embedding model today.
 
 The process is the same as the LLM - but we'll make a few specific tweaks:
@@ -74,41 +73,42 @@ Once you're done - please move on to Build Task 3!
 
 ![image](https://i.imgur.com/0YzyQX7.png)
 
-> NOTE: You may notice the application builds slowly (~15min.) with the default free-tier hardware. The process will be faster using the `CPU upgrade` Space Hardware - though it is not required. 
+> NOTE: You may notice the application builds slowly (~15min.) with the default free-tier hardware. The process will be faster using the `CPU upgrade` Space Hardware - though it is not required.
 
-2. Clone the newly created space into a directory that is *NOT IN YOUR AI MAKERSPACE REPOSITORY* using the SSH option.
+2. Clone the newly created space into a directory that is _NOT IN YOUR AI MAKERSPACE REPOSITORY_ using the SSH option.
 
 > NOTE: You may need to ensure you've added your SSH key to Hugging Face, as well as GitHub. This should already be done.
 
 ![image](https://i.imgur.com/5RyBdP5.png)
 
-3. Copy and Paste (`cp ...` or through UI) the contents of `Week 8/Day 2` into the newly cloned repository. 
+3. Copy and Paste (`cp ...` or through UI) the contents of `Week 8/Day 2` into the newly cloned repository.
 
 > NOTE: Please keep the `README.md` that was cloned from your space and delete the class `README.md`.
 
-4. Using the `ls` command or the `tree` command verify that you have copied over: 
- - `app.py`
- - `Dockerfile`
- - `data/paul_graham_essays.txt`
- - `chainlit.md`
- - `.gitignore`
- - `.env.sample`
- - `solution_app.py`
- - `requirements.txt`
+4. Using the `ls` command or the `tree` command verify that you have copied over:
 
- Here is an example as the `ls -al` CLI command: 
+- `app.py`
+- `Dockerfile`
+- `data/paul_graham_essays.txt`
+- `chainlit.md`
+- `.gitignore`
+- `.env.sample`
+- `solution_app.py`
+- `requirements.txt`
 
- ![image](https://i.imgur.com/vazGYeb.png)
+Here is an example as the `ls -al` CLI command:
 
- 5. Work through the `app.py` file to migrate your LCEL LangChain RAG Chain from the Notebook to Chainlit!
+![image](https://i.imgur.com/vazGYeb.png)
 
- 6. Be sure to modify your `README.md` and `chainlit.md` as you see fit!
+5.  Work through the `app.py` file to migrate your LCEL LangChain RAG Chain from the Notebook to Chainlit!
 
- > NOTE: If you get stuck, there is a working reference version in `solution_app.py`.
+6.  Be sure to modify your `README.md` and `chainlit.md` as you see fit!
 
- 7. When you are done with local testing - push your changes to your space. 
+> NOTE: If you get stuck, there is a working reference version in `solution_app.py`.
 
- 8. Make sure you add your `HF_LLM_ENDPOINT`, `HF_EMBED_ENDPOINT`, `HF_TOKEN` as "Secrets" in your Hugging Face Space.
+7.  When you are done with local testing - push your changes to your space.
+
+8.  Make sure you add your `HF_LLM_ENDPOINT`, `HF_EMBED_ENDPOINT`, `HF_TOKEN` as "Secrets" in your Hugging Face Space.
 
 ### Terminating Your Resources
 
@@ -123,6 +123,12 @@ Please head to the settings of each endpoint and select `Delete Endpoint`. You w
 Example Screen Shot:
 
 ![image](https://i.imgur.com/qfbcVpS.png)
+
+## Homework
+
+Screen shot of endpoint usage:
+
+![image.png](./Screenshot-API-Usage.png)
 
 ## Ship 🚢
 
@@ -148,9 +154,9 @@ Here's a template to get you started:
 I am thrilled to announce that I have just built and shipped a open-source LLM-powered Retrieval Augmented Generation Application with LangChain! 🎉🤖
 
 🔍 Three Key Takeaways:
-1️⃣ 
-2️⃣ 
-3️⃣ 
+1️⃣
+2️⃣
+3️⃣
 
 Let's continue pushing the boundaries of what's possible in the world of AI and question-answering. Here's to many more innovations! 🚀
 Shout out to @AIMakerspace !
