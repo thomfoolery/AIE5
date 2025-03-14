@@ -4,6 +4,12 @@
 </p>
 
 ## <h1 align="center" id="heading">Session 18: Inference Optimization Through Quantization</h1>
+### [Quicklinks](https://github.com/AI-Maker-Space/AIE5/00_AIM_Quicklinks)
+
+| 🤓 Pre-work | 📰 Session Sheet | ⏺️ Recording     | 🖼️ Slides        | 👨‍💻 Repo         | 📝 Homework      | 📁 Feedback       |
+|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|
+| [Session 18: Pre-Work](https://www.notion.so/Session-18-Inference-Serving-and-GPU-Optimization-189cd547af3d80d28ad9e324861d258b?pvs=4#189cd547af3d8163a4fed2cf4e4626f7)| [Session 18: Inference, Serving, and GPU Optimization](https://www.notion.so/Session-18-Inference-Serving-and-GPU-Optimization-189cd547af3d80d28ad9e324861d258b) | Coming Soon! | Coming Soon! | You Are Here!| [Session 18 Assignment: Inference, Serving, and GPU Optimization](https://forms.gle/LxuYTgRcouE7GHZv7)| [AIE5 Feedback 3/13](https://forms.gle/twvJU3qz6NFU38dq6) |
+
 
 # Build 🏗️
 
